@@ -1,0 +1,26 @@
+name: Source release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select Xcode 16
+        run: sudo xcode-select -s /Applications/Xcode_16.2.app
+      - name: Test
+        run: swift test
+      - name: Validate tag and version
+        run: |
+          version=$(defaults read "$PWD/Support/Info" CFBundleShortVersionString)
+          test "$GITHUB_REF_NAME" = "v$version"
+      - name: Publish source-only release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" --generate-notes --title "Clean Mac Desktop $GITHUB_REF_NAME"

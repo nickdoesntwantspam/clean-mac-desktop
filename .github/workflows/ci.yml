@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select Xcode 16
+        run: sudo xcode-select -s /Applications/Xcode_16.2.app
+      - name: Test
+        run: swift test
+      - name: Package development app
+        run: ./scripts/package_app.sh
+      - name: Verify bundle
+        run: |
+          test "$(defaults read "$PWD/build/Clean Mac Desktop.app/Contents/Info" CFBundleIdentifier)" = "com.nicholaswilliams.CleanMacDesktop"
+          test "$(defaults read "$PWD/build/Clean Mac Desktop.app/Contents/Info" LSMinimumSystemVersion)" = "14.0"
+          test "$(lipo -archs "$PWD/build/Clean Mac Desktop.app/Contents/MacOS/CleanMacDesktop")" = "x86_64 arm64"
+          codesign --verify --deep --strict "$PWD/build/Clean Mac Desktop.app"
