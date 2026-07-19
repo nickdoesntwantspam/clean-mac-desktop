@@ -40,7 +40,9 @@ The packaging script creates an ad-hoc signed development build. Ad-hoc builds a
 
 ## Distribution
 
-GitHub Releases contain source code only. This repository does not publish a Homebrew Cask or prebuilt binary. Clone the repository and build the application locally.
+Download the signed and notarized universal DMG from [GitHub Releases](https://github.com/nickdoesntwantspam/clean-mac-desktop/releases). The application remains completely free and open source. A Homebrew Cask is not currently published.
+
+To build from source instead, clone this repository and follow the instructions above.
 
 ## Contributing and security
 

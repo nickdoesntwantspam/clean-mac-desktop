@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.0 — Unreleased
+## 1.0.0 — 2026-07-18
 
 - Initial menu-bar utility.
 - Hide and show Desktop items without moving files.
