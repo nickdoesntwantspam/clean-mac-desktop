@@ -40,6 +40,9 @@ codesign --verify --verbose=2 "$temporary_dmg"
 mkdir -p "$output_directory"
 rm -f "$dmg_path" "$dmg_path.sha256"
 ditto --noextattr --noqtn "$temporary_dmg" "$dmg_path"
-shasum -a 256 "$dmg_path" >"$dmg_path.sha256"
+(
+  cd "$output_directory"
+  shasum -a 256 "${dmg_path:t}" >"${dmg_path:t}.sha256"
+)
 
 echo "$dmg_path"
